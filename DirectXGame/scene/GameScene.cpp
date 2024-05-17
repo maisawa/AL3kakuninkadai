@@ -1,13 +1,11 @@
 #include "GameScene.h"
 #include "TextureManager.h"
-#include <cassert>
-#include"Player.h"
 
 GameScene::GameScene() {}
 
 GameScene::~GameScene() {
-	/*delete model_;
-	delete player_;*/
+	//delete model_;
+	/*delete player_;*/
 }
 
 void GameScene::Initialize() {
@@ -15,11 +13,17 @@ void GameScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
+	
 	textureHandle_ = TextureManager::Load("mario.jpg");
+	
 	model_=Model::Create();
+	
 	worldTransform_.Initialize();
+
 	viewProjection_.Initialize();
+
 	player_=new Player();
+
 	player_->Initialize(model_,textureHandle_,&viewProjection_);
 }
 
