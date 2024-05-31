@@ -4,10 +4,10 @@
 #include "DirectXCommon.h"
 #include "Input.h"
 #include "Model.h"
-#include "SafeDelete.h"
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include "DebugCamera.h"
 
 /// <summary>
 /// ゲームシーン
@@ -48,7 +48,22 @@ private: // メンバ変数
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
-	uint32_t textureHandle_=0;
-
-	Sprite *sprite_=nullptr;
+	// スプライト
+	Sprite* sprite_ = nullptr;
+	// テクスチャハンドル
+	uint32_t textureHandle_ = 0;
+	// 3Dモデル
+	Model* model_ = nullptr;
+	// ワールドトランスフォームの初期化
+	WorldTransform worldTransform_;
+	// ビュープロジェクションの初期化
+	ViewProjection viewProjection_;
+	// サウンドデータハンドル
+	uint32_t soundDataHandle_ = 0;
+	// 音声再生ハンドル
+	uint32_t voiceHandle_ = 0;
+	// ImGuiで値を入力する変数
+	float inputFloat3[3] = { 0, 0, 0 };
+	// デバックカメラ
+	DebugCamera* debugCamera_ = nullptr;
 };
