@@ -17,11 +17,11 @@ struct ConstBufferDataWorldTransform {
 class WorldTransform {
 public:
 	// ローカルスケール
-	Vector3 scale_ = {1, 1, 1};
+	Vector3 scale_ = { 1, 1, 1 };
 	// X,Y,Z軸回りのローカル回転角
-	Vector3 rotation_ = {0, 0, 0};
+	Vector3 rotation_ = { 0, 0, 0 };
 	// ローカル座標
-	Vector3 translation_ = {0, 0, 0};
+	Vector3 translation_ = { 0, 0, 0 };
 	// ローカル → ワールド変換行列
 	Matrix4x4 matWorld_;
 	// 親となるワールド変換へのポインタ
@@ -51,6 +51,9 @@ public:
 	/// </summary>
 	/// <returns>定数バッファ</returns>
 	const Microsoft::WRL::ComPtr<ID3D12Resource>& GetConstBuffer() const { return constBuffer_; }
+
+	//行列の計算・転送
+	void UpdateMatrix();
 
 private:
 	// 定数バッファ
