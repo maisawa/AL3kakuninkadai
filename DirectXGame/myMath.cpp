@@ -9,15 +9,12 @@ Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Ve
     result.m[0][0] *= scale.x;
     result.m[0][1] *= scale.x;
     result.m[0][2] *= scale.x;
-
     result.m[1][0] *= scale.y;
     result.m[1][1] *= scale.y;
     result.m[1][2] *= scale.y;
-
     result.m[2][0] *= scale.z;
     result.m[2][1] *= scale.z;
     result.m[2][2] *= scale.z;
-
     result.m[3][0] = translate.x;
     result.m[3][1] = translate.y;
     result.m[3][2] = translate.z;
