@@ -12,11 +12,13 @@ void Skydome::Initialize(Model* model, uint32_t textureHandle, ViewProjection* v
 	viewProjection_ = viewProjection;
 }
 
+//UpdateŠÖ”‚Ì’è‹`
 void Skydome::Update()
 {
 	worldTransform_.TransferMatrix();
 }
 
+//DrawŠÖ”‚Ì’è‹`
 void Skydome::Draw()
 {
 	model_->Draw(worldTransform_,*viewProjection_,textureHandle_);
