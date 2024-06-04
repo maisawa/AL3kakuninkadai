@@ -1,4 +1,4 @@
-#include "Skydome.h"
+#include <Skydome.h>
 #include <cassert>
 void Skydome::Initialize(Model* model, uint32_t textureHandle, ViewProjection* viewProjection)
 {
@@ -12,13 +12,13 @@ void Skydome::Initialize(Model* model, uint32_t textureHandle, ViewProjection* v
 	viewProjection_ = viewProjection;
 }
 
-//UpdateŠÖ”‚Ì’è‹`
+//Updateé–¢æ•°ã®å®šç¾©
 void Skydome::Update()
 {
 	worldTransform_.TransferMatrix();
 }
 
-//DrawŠÖ”‚Ì’è‹`
+//Drawé–¢æ•°ã®å®šç¾©
 void Skydome::Draw()
 {
 	model_->Draw(worldTransform_,*viewProjection_,textureHandle_);
