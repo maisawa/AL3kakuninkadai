@@ -25,9 +25,9 @@ void GameScene::Initialize() {
 	audio_ = Audio::GetInstance();
 
 	// ファイル名を指定してテクスチャを読み込む
-	textureHandle_ = TextureManager::Load("block.png");
+	textureHandle_ = TextureManager::Load("sample.png");
 	// 3Dモデルの生成
-	modelSkydome_ = Model::CreateFromOBJ("skydome",true);
+	modelSkydome_ = Model::CreateFromOBJ("sphere",true);
 	modelBlock_ = Model::Create();
 	// ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
