@@ -1,6 +1,6 @@
 #include "GameScene.h"
 #include "TextureManager.h"
-//#include "myMath.h"
+#include "myMath.h"
 #include <cassert>
 
 GameScene::GameScene() {}
@@ -9,9 +9,8 @@ GameScene::~GameScene() {
 	delete model_;
 	delete modelBlock_;
 	delete modelSkydome_;
-	//delete mapChipField_;
-	// 自キャラの開放
-	//delete player_;
+	delete mapChipField_;
+	delete player_;
 
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
 		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
@@ -30,40 +29,58 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 
-	// ファイル名を指定してテクスチャを読み込む
 	textureHandle_ = TextureManager::Load("mario.jpg");
-	// 3Dモデルの生成
 	model_ = Model::Create();
 	modelBlock_ = Model::Create();
 	modelSkydome_ = Model::CreateFromOBJ("sphere", true);
-	// ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
-	// ビュープロジェクションの初期化
 	viewProjection_.farZ;
 	viewProjection_.Initialize();
 
-	// 自キャラの生成
-	//player_ = new Player();
-	// 自キャラの初期化
-	//player_->Initialize(model_, textureHandle_, &viewProjection_);
+	player_ = new Player();
 
-	// 天球の生成
-	//skydome_ = new Skydome();
-	// 天球の初期化
-	//skydome_->Initialize(modelSkydome_, &viewProjection_);
+	player_->Initialize(model_, textureHandle_, &viewProjection_);
 
-	// マップチップの描画の生成
-	//mapChipField_ = new MapChipField;
-	//mapChipField_->LoadMapChipCsv("Resources/map.csv");
-	// マップチップの描画の初期化
-	//mapChipField_->Initialize(model_, &viewProjection_);
-	//GenerateBlocks();
+	skydome_ = new Skydome();
 
-	// デバッグカメラの生成
+	skydome_->Initialize(modelSkydome_, &viewProjection_);
+
+	mapChipField_ = new MapChipField;
+	mapChipField_->LoadMapChipCsv("Resources/map.csv");
+
+	mapChipField_->Initialize(model_, &viewProjection_);
+	GenerateBlocks();
+
 	debugCamera_ = new DebugCamera(1280, 720);
 }
 
-///
+void GameScene::GenerateBlocks() {
+	
+	const uint32_t numBlockVirtical = mapChipField_->GetkNumkBlockVirtical();
+	const uint32_t numBlockHorizontal = mapChipField_->GetkNumkBlockHorizontal();
+
+	const float kBlockWidth = 2.0f;
+	const float kBlockHeight = 2.0f;
+	
+	worldTransformBlocks_.resize(numBlockVirtical);
+
+	for (uint32_t i = 0; i < numBlockVirtical; ++i) {
+		worldTransformBlocks_[i].resize(numBlockHorizontal);
+	}
+
+	for (uint32_t i = 0; i < numBlockVirtical; ++i) {
+		for (uint32_t j = 0; j < numBlockHorizontal; ++j) {
+			if (j % 2 == (i % 2)) {
+				worldTransformBlocks_[i][j] = new WorldTransform();
+				worldTransformBlocks_[i][j]->Initialize();
+				worldTransformBlocks_[i][j]->translation_.x = kBlockWidth * j;
+				worldTransformBlocks_[i][j]->translation_.y = kBlockHeight * i;
+			} else {
+				worldTransformBlocks_[i][j] = nullptr;
+			}
+		}
+	}
+}
 
 void GameScene::Update() {
 #ifdef _DEBUG
@@ -75,37 +92,30 @@ void GameScene::Update() {
 	}
 #endif
 
-	// カメラ処理
 	if (isDebugCameraActive_) {
-		// デバッグカメラの更新
 		debugCamera_->Update();
 		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
 		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
-		// ビュープロジェクション行列の転送
+
 		viewProjection_.TransferMatrix();
-	} else {
-		// ビュープロジェクション行列の更新と転送
+	} 
+	else {
+
 		viewProjection_.UpdateMatrix();
 	}
 
-	// 自キャラの更新
-	//player_->Update();
+	player_->Update();
 
-	// 縦横ブロック更新
 	for (std::vector<WorldTransform*> worldTransformBlockTate : worldTransformBlocks_) {
 		for (WorldTransform* worldTransformBlockYoko : worldTransformBlockTate) {
 			if (!worldTransformBlockYoko)
 				continue;
 
-			// アフィン変換行列の作成
 			worldTransformBlockYoko->UpdateMatrix();
 		}
 	}
-
-	// 天球の更新
-	//skydome_->Update();
-
-	//mapChipField_->Update();
+	skydome_->Update();
+	mapChipField_->Update();
 }
 
 void GameScene::Draw() {
@@ -135,13 +145,10 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 
-	// player_->Draw();
+	skydome_->Draw();
 
-	//skydome_->Draw();
+	mapChipField_->Draw();
 
-	//mapChipField_->Draw();
-
-	// 縦横ブロック描画
 	for (std::vector<WorldTransform*> worldTransformBlockTate : worldTransformBlocks_) {
 		for (WorldTransform* worldTransformBlockYoko : worldTransformBlockTate) {
 			if (!worldTransformBlockYoko)
