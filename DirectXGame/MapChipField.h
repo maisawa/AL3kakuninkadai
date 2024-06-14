@@ -1,37 +1,54 @@
-#include<vector>
 #include <cstdint>
-#include<string>
-#include <Vector3.h>
+#include <stdint.h>
+#include <vector>
+#include "Model.h"
+#include "WorldTransform.h"
+#include "Vector3.h"
 
 enum class MapChipType {
-    kBlank,//空白
-    kBlock,//ブロック
+	kBlank,
+	kBlock,
 };
 
 struct MapChipData {
-    std::vector<std::vector<MapChipType>>data;
+	std::vector<std::vector<MapChipType>> data;
 };
 
 class MapChipField {
 public:
-    void ResetMapChipData();
+	/// 初期化
+	void Initialize(Model* model, ViewProjection* viewProjection);
 
-    void LoadMapChipCsv(const std::string& filePath);
-    
-    MapChipType GetMapChipTypeByIndex(uint32_t xIndex, uint32_t yIndex);
+	/// 更新
+	void Update();
 
-    Vector3 GetMapChipPositionByIndex(uint32_t xIndex, uint32_t yIndex);
+	/// 描画
+	void Draw();
 
-    uint32_t GetNumBlockVirtical();
+	void ResetMapChipData();
 
-    uint32_t GetNumBlockHorizontal();
+	void LoadMapChipCsv(const std::string& filePath);
+
+	MapChipType MapChipTypeByIndex(uint32_t xIndex, uint32_t yIndex);
+
+	Vector3 MapChipPositionByIndex(uint32_t xIndex, uint32_t yIndex);
+
+	uint32_t GetkNumkBlockVirtical();
+	uint32_t GetkNumkBlockHorizontal();
+
 private:
+	static inline const float kBlockWidth = 1.0f;
+	static inline const float kBlockHeight = 1.0f;
 
-    static inline const float kBlockWidth = 1.0f;
-    static inline const float kBlockHeight = 1.0f;
-    static inline const uint32_t kNumBlockVirtical = 20;
-    static inline const uint32_t kNumBlockHorizontal = 100;
+	static inline const uint32_t kNumkBlockVirtical = 20;
+	static inline const uint32_t kNumkBlockHorizontal = 100;
 
-    MapChipData mapChipData_;
+	// ワールドトランスフォームの初期化
+	WorldTransform worldTransform_;
+	// モデル
+	Model* model_ = nullptr;
 
+	ViewProjection* viewProjection_ = nullptr;
+
+	MapChipData mapChipData_;
 };
