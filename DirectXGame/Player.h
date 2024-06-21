@@ -1,20 +1,20 @@
 #include "Model.h"
 #include "WorldTransform.h"
-#include"myMath.h"
 
-class Player {
+enum class LRDirection {
+	kRight,
+	kLeft,
+};
+
+class Player{
 public:
-	/// 初期化
-	void Initialize(Model* model, ViewProjection* viewProjection,const Vector3& position);
 
-	/// 更新
-	void Update();
-
-	/// 描画
-	void Draw();
-
+void Initialize(Model* model, ViewProjection* viewProjection, const Vector3& position);
+void Update();
+void Draw();
 private:
-	// ワールドトランスフォームの初期化
+
+// ワールドトランスフォームの初期化
 	WorldTransform worldTransform_;
 	// モデル
 	Model* model_ = nullptr;
@@ -23,7 +23,20 @@ private:
 
 	ViewProjection* viewProjection_ = nullptr;
 
-	Vector3 velocity_={};
+	Vector3 velocity_ = {};
 
-	static inline const float kAcceleration=3.0f;
+	LRDirection lrDirection_ = LRDirection::kRight;
+	
+	float turnFirstRotationY_ = 0.0f;
+	float turnTimer_ = 0.7f;
+
+	bool onGround_ = true;
+	bool landing = false;
+
+	static inline const float kAcceleratio = 1.0f;
+	static inline const float kAttenuation = 0.1f;
+
+	static inline const float kLimitRunSpeed = 0.1f;
+	static inline const float kTimeTurn = 0.3f;
+
 };

@@ -76,10 +76,6 @@ MapChipType MapChipField::MapChipTypeByIndex(uint32_t xIndex, uint32_t yIndex) {
 
 Vector3 MapChipField::MapChipPositionByIndex(uint32_t xIndex, uint32_t yIndex) { return Vector3(kBlockWidth * xIndex, kBlockHeight * (kNumkBlockVirtical - 1 - yIndex), 0); }
 
-uint32_t MapChipField::GetkNumkBlockVirtical() { 
-	return kNumkBlockVirtical; 
-}
+uint32_t MapChipField::GetkNumkBlockVirtical() { return kNumkBlockVirtical; }
 
-uint32_t MapChipField::GetkNumkBlockHorizontal() { 
-	return kNumkBlockHorizontal; 
-}
+uint32_t MapChipField::GetkNumkBlockHorizontal() { return kNumkBlockHorizontal; }
