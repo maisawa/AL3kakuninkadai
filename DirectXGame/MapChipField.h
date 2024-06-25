@@ -44,9 +44,8 @@ private:
 	static inline const uint32_t kNumkBlockVirtical = 20;
 	static inline const uint32_t kNumkBlockHorizontal = 100;
 
-	// ワールドトランスフォームの初期化
 	WorldTransform worldTransform_;
-	// モデル
+
 	Model* model_ = nullptr;
 
 	ViewProjection* viewProjection_ = nullptr;

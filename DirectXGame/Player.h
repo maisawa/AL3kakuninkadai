@@ -16,11 +16,8 @@ void Update();
 void Draw();
 private:
 
-// ワールドトランスフォームの初期化
 	WorldTransform worldTransform_;
-	// モデル
 	Model* model_ = nullptr;
-	// テクスチャハンドル
 	uint32_t textureHandle_ = 0u;
 
 	ViewProjection* viewProjection_ = nullptr;
