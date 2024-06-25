@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Audio.h"
 #include "DebugCamera.h"
 #include "DirectXCommon.h"
@@ -9,11 +8,8 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
-
 #include <vector>
-
 #include "Skydome.h"
-
 #include "MapChipField.h"
 
 /// <summary>
@@ -57,31 +53,16 @@ private: // メンバ変数
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
-	// テクスチャハンドル
 	uint32_t textureHandle_ = 0;
-	// 3Dモデル
 	Model* model_ = nullptr;
 	Model* modelBlock_ = nullptr;
 	Model* modelSkydome_ = nullptr;
-	// ワールドトランスフォームの初期化
 	WorldTransform worldTransform_;
-	// ビュープロジェクションの初期化
 	ViewProjection viewProjection_;
-
-	// 自キャラ
 	Player* player_ = nullptr;
-
-	// 縦横ブロック配列
 	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
-
-	// デバッグカメラ有効
 	bool isDebugCameraActive_ = false;
-	// デバッグカメラ
 	DebugCamera* debugCamera_ = nullptr;
-
-	// 天球
 	Skydome* skydome_ = nullptr;
-
-	//マップチップの描画
 	MapChipField* mapChipField_ = nullptr;
 };
