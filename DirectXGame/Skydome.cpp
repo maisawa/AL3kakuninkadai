@@ -1,3 +1,5 @@
+
+
 #include "Skydome.h"
 
 /// 初期化
