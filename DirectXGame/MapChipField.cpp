@@ -15,16 +15,16 @@ std::map<std::string, MapChipType> mapChipType = {
 }
 
 void MapChipField::Initialize(Model* model, ViewProjection* viewProjection) {
-	// 引数の内容をメンバ変数に記録
 	worldTransform_.Initialize();
 	model_ = model;
 	viewProjection_ = viewProjection;
 }
 
-void MapChipField::Update() {}
+void MapChipField::Update() {
+
+}
 
 void MapChipField::Draw() {
-	// 3Dモデル描画
 	model_->Draw(worldTransform_, *viewProjection_);
 }
 
@@ -74,8 +74,11 @@ MapChipType MapChipField::MapChipTypeByIndex(uint32_t xIndex, uint32_t yIndex) {
 	return mapChipData_.data[yIndex][xIndex];
 }
 
-Vector3 MapChipField::MapChipPositionByIndex(uint32_t xIndex, uint32_t yIndex) { return Vector3(kBlockWidth * xIndex, kBlockHeight * (kNumkBlockVirtical - 1 - yIndex), 0); }
+Vector3 MapChipField::MapChipPositionByIndex(uint32_t xIndex, uint32_t yIndex) { return Vector3(kBlockWidth * xIndex, kBlockHeight * (kNumkBlockVirtical - 1 - yIndex), 0); 
+}
 
-uint32_t MapChipField::GetkNumkBlockVirtical() { return kNumkBlockVirtical; }
+uint32_t MapChipField::GetkNumkBlockVirtical() { return kNumkBlockVirtical; 
+}
 
-uint32_t MapChipField::GetkNumkBlockHorizontal() { return kNumkBlockHorizontal; }
+uint32_t MapChipField::GetkNumkBlockHorizontal() { return kNumkBlockHorizontal; 
+}

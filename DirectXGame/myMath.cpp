@@ -1,4 +1,3 @@
-
 #include "myMath.h"
 #include <numbers>
 
@@ -71,6 +70,18 @@ Vector3& operator+=(Vector3& lhv,const Vector3& rhv){
       lhv.y+=rhv.y;
       lhv.z+=rhv.z;
       return lhv;
+}
+
+Vector3& operator*=(Vector3& v, float s) {
+	v.x += s;
+	v.y += s;
+	v.z += s;
+	return v;
+}
+
+const Vector3 operator*(const Vector3& v, float s) { 
+	Vector3 temp(v);
+	return temp *= s;
 }
 
 float EaseInOut(float x1, float x2, float t) {

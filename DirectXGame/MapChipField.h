@@ -17,21 +17,12 @@ struct MapChipData {
 
 class MapChipField {
 public:
-	/// 初期化
 	void Initialize(Model* model, ViewProjection* viewProjection);
-
-	/// 更新
 	void Update();
-
-	/// 描画
 	void Draw();
-
 	void ResetMapChipData();
-
 	void LoadMapChipCsv(const std::string& filePath);
-
 	MapChipType MapChipTypeByIndex(uint32_t xIndex, uint32_t yIndex);
-
 	Vector3 MapChipPositionByIndex(uint32_t xIndex, uint32_t yIndex);
 
 	uint32_t GetkNumkBlockVirtical();
@@ -45,10 +36,7 @@ private:
 	static inline const uint32_t kNumkBlockHorizontal = 100;
 
 	WorldTransform worldTransform_;
-
 	Model* model_ = nullptr;
-
 	ViewProjection* viewProjection_ = nullptr;
-
 	MapChipData mapChipData_;
 };

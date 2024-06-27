@@ -11,15 +11,12 @@ GameScene::~GameScene() {
 	delete modelSkydome_;
 	delete mapChipField_;
 	delete player_;
-
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
 		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
 			delete worldTransformBlock;
 		}
 	}
-
 	worldTransformBlocks_.clear();
-
 	delete debugCamera_;
 }
 
@@ -30,7 +27,7 @@ void GameScene::Initialize() {
 	audio_ = Audio::GetInstance();
 	textureHandle_ = TextureManager::Load("mario.jpg");
 	model_ = Model::Create();
-	modelBlock_ = Model::Create();
+	modelBlock_ = Model::CreateFromOBJ("block");
 	modelSkydome_ = Model::CreateFromOBJ("sphere", true);
 	worldTransform_.Initialize();
 	viewProjection_.farZ;
@@ -39,18 +36,22 @@ void GameScene::Initialize() {
 	skydome_->Initialize(modelSkydome_, &viewProjection_);
 	mapChipField_ = new MapChipField;
 	mapChipField_->LoadMapChipCsv("Resources/map.csv");
-	mapChipField_->Initialize(model_, &viewProjection_);
+	mapChipField_->Initialize(modelBlock_, &viewProjection_);
 	GenerateBlocks();
 	player_ = new Player();
+
 	Vector3 playerPosition = mapChipField_->MapChipPositionByIndex(30, 0);
 	player_->Initialize(model_, &viewProjection_, playerPosition);
 	debugCamera_ = new DebugCamera(1280, 720);
-
-
+	cameraController_ = new CameraController();
+	cameraController_->Initialize();
+	cameraController_->SetTarget(player_);
+	cameraController_->Reset();
+	CameraController::Rect cameraArea = {12.0f, 100 - 12.0f, 6.0f, 6.0f};
+	cameraController_->SetMovableArea(cameraArea);
 }
 
 void GameScene::GenerateBlocks() {
-
 	const uint32_t numBlockVirtical = mapChipField_->GetkNumkBlockVirtical();
 	const uint32_t numBlockHorizontal = mapChipField_->GetkNumkBlockHorizontal();
 	const float kBlockWidth = 2.0f;
@@ -89,11 +90,9 @@ void GameScene::Update() {
 		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
 		viewProjection_.TransferMatrix();
 	} else {
-		
-		viewProjection_.TransferMatrix();
+		viewProjection_.UpdateMatrix();
 	}
 	player_->Update();
-
 	for (std::vector<WorldTransform*> worldTransformBlockTate : worldTransformBlocks_) {
 		for (WorldTransform* worldTransformBlockYoko : worldTransformBlockTate) {
 			if (!worldTransformBlockYoko)
@@ -104,8 +103,8 @@ void GameScene::Update() {
 	}
 
 	skydome_->Update();
-
 	mapChipField_->Update();
+	cameraController_->Update();
 }
 
 void GameScene::Draw() {

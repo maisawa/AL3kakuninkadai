@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Audio.h"
 #include "DebugCamera.h"
 #include "DirectXCommon.h"
@@ -8,9 +9,14 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+
 #include <vector>
+
 #include "Skydome.h"
+
 #include "MapChipField.h"
+
+#include "CameraController.h"
 
 /// <summary>
 /// ゲームシーン
@@ -65,4 +71,5 @@ private: // メンバ変数
 	DebugCamera* debugCamera_ = nullptr;
 	Skydome* skydome_ = nullptr;
 	MapChipField* mapChipField_ = nullptr;
+	CameraController* cameraController_ = nullptr;
 };
