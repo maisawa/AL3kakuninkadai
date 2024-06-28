@@ -3,7 +3,9 @@
 #include "myMath.h"
 #include <cassert>
 
-GameScene::GameScene() {}
+GameScene::GameScene() {
+
+}
 
 GameScene::~GameScene() {
 	delete model_;
