@@ -1,4 +1,3 @@
-
 #include "MapChipField.h"
 
 #include <cassert>
