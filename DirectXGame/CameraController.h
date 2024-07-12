@@ -15,9 +15,10 @@ public:
 
 	void Initialize();
 	void Update();
-	void SetTarget(Player* target) { target_ = target; }
+	void SetTarget(Player* target);
 	void Reset();
-	void SetMovableArea(const Rect& area) { movadeArea_ = area; }
+	ViewProjection& GetViewProjection();
+	void SetMovableArea(const Rect& area);
 
 private:
 	ViewProjection viewProjection_;
@@ -25,7 +26,7 @@ private:
 	Vector3 targetOffset_ = {0, 0, -15.0f};
 	Rect movadeArea_ = {0, 100, 0, 100};
 	Vector3 objective;
+	static inline const Rect margin = {-9.0f, 9.0f, -5.0f, 5.0f};
 	static inline const float kInterpolationRate = 0.1f;
 	static inline const float kVelocityBias = 30.0f;
-	static inline const Rect margin = {-90.0f, 90.0f, -50.0f, 50.0f};
 };

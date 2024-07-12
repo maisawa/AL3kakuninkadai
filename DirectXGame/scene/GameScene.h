@@ -1,3 +1,4 @@
+
 #pragma once
 
 #include "Audio.h"
@@ -13,6 +14,7 @@
 #include "Skydome.h"
 #include "MapChipField.h"
 #include "CameraController.h"
+using namespace std;
 
 /// <summary>
 /// ゲームシーン
@@ -62,7 +64,7 @@ private: // メンバ変数
 	WorldTransform worldTransform_;
 	ViewProjection viewProjection_;
 	Player* player_ = nullptr;
-	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
+	vector<vector<WorldTransform*>> worldTransformBlocks_;
 	bool isDebugCameraActive_ = false;
 	DebugCamera* debugCamera_ = nullptr;
 	Skydome* skydome_ = nullptr;

@@ -1,18 +1,17 @@
 #pragma once
+#include "Vector3.h"
 #include <cstdint>
 #include <stdint.h>
 #include <vector>
-#include "Model.h"
-#include "WorldTransform.h"
-#include "Vector3.h"
+using namespace std;
 
 enum class MapChipType {
-	kBlank,
-	kBlock,
+	kBlank, //空白
+	kBlock, //ブロック
 };
 
 struct MapChipData {
-	std::vector<std::vector<MapChipType>> data;
+	vector<vector<MapChipType>> data;
 };
 
 class MapChipField {
@@ -30,11 +29,8 @@ public:
 		float top;	  //上端
 	};
 
-	void Initialize(Model* model, ViewProjection* viewProjection);
-	void Update();
-	void Draw();
 	void ResetMapChipData();
-	void LoadMapChipCsv(const std::string& filePath);
+	void LoadMapChipCsv(const string& filePath);
 	MapChipType GetMapChipTypeByIndex(uint32_t xIndex, uint32_t yIndex);
 	Vector3 GetMapChipPositionByIndex(uint32_t xIndex, uint32_t yIndex);
 	uint32_t GetkNumkBlockVirtical();
@@ -43,12 +39,10 @@ public:
 	Rect GetRectByIndex(uint32_t xIndex, uint32_t yIndex);
 
 private:
+	
 	static inline const float kBlockWidth = 1.0f;
 	static inline const float kBlockHeight = 1.0f;
 	static inline const uint32_t kNumkBlockVirtical = 20;
 	static inline const uint32_t kNumkBlockHorizontal = 100;
-	WorldTransform worldTransform_;
-	Model* model_ = nullptr;
-	ViewProjection* viewProjection_ = nullptr;
 	MapChipData mapChipData_;
 };

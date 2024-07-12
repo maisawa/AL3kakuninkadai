@@ -14,6 +14,7 @@ Vector3& operator+=(Vector3& lhs, const Vector3& rhv);
 Vector3& operator-=(Vector3& lhs, const Vector3& rhv);
 Vector3& operator*=(Vector3& v, float s);
 Vector3& operator/=(Vector3& v, float s);
+
 const Vector3 operator+(const Vector3& v1, const Vector3& v2);
 const Vector3 operator-(const Vector3& v1, const Vector3& v2);
 const Vector3 operator*(const Vector3& v, float s);

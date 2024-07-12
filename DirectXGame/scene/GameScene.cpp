@@ -2,6 +2,7 @@
 #include "TextureManager.h"
 #include "myMath.h"
 #include <cassert>
+using namespace std;
 
 GameScene::GameScene() {}
 
@@ -11,8 +12,9 @@ GameScene::~GameScene() {
 	delete modelSkydome_;
 	delete mapChipField_;
 	delete player_;
+	delete cameraController_;
 
-	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
+	for (vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
 		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
 			delete worldTransformBlock;
 		}
@@ -29,38 +31,86 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 
-	
 	textureHandle_ = TextureManager::Load("mario.jpg");
-	model_ = Model::Create();
+
+	model_ = Model::CreateFromOBJ("player");
 	modelBlock_ = Model::CreateFromOBJ("block");
 	modelSkydome_ = Model::CreateFromOBJ("sphere", true);
+
 	worldTransform_.Initialize();
+
 	viewProjection_.farZ;
 	viewProjection_.Initialize();
-	skydome_ = new Skydome();
-	skydome_->Initialize(modelSkydome_, &viewProjection_);
+
 	mapChipField_ = new MapChipField;
 	mapChipField_->LoadMapChipCsv("Resources/map.csv");
-	mapChipField_->Initialize(modelBlock_, &viewProjection_);
-	GenerateBlocks();
+
 	player_ = new Player();
-	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(1, 18);
+	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(5, 16);
 	player_->Initialize(model_, &viewProjection_, playerPosition);
-	debugCamera_ = new DebugCamera(1280, 720);
 	player_->SetMapChipField(mapChipField_);
+
+	debugCamera_ = new DebugCamera(WinApp::kWindowWidth, WinApp::kWindowHeight);
+
+	skydome_ = new Skydome();
+	skydome_->Initialize(modelSkydome_, &viewProjection_);
+
+	GenerateBlocks();
+
 	cameraController_ = new CameraController();
 	cameraController_->Initialize();
 	cameraController_->SetTarget(player_);
 	cameraController_->Reset();
+
 	CameraController::Rect cameraArea = {12.0f, 100 - 12.0f, 6.0f, 6.0f};
 	cameraController_->SetMovableArea(cameraArea);
 }
 
+void GameScene::Update() {
+
+	player_->Update();
+
+	cameraController_->Update();
+
+#ifdef _DEBUG
+	if (input_->TriggerKey(DIK_SPACE)) {
+		isDebugCameraActive_ = !isDebugCameraActive_;
+	}
+#endif
+
+	// カメラ処理
+	if (isDebugCameraActive_) {
+		// デバッグカメラの更新
+		debugCamera_->Update();
+		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
+		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
+		// ビュープロジェクション行列の転送
+		viewProjection_.TransferMatrix();
+	} else {
+		viewProjection_.matView = cameraController_->GetViewProjection().matView;
+		viewProjection_.matView = cameraController_->GetViewProjection().matProjection;
+		// ビュープロジェクションの転送
+		 viewProjection_.TransferMatrix();
+	}
+
+	skydome_->Update();
+
+	for (vector<WorldTransform*> worldTransformBlockTate : worldTransformBlocks_) {
+		for (WorldTransform* worldTransformBlockYoko : worldTransformBlockTate) {
+			if (!worldTransformBlockYoko)
+				continue;
+
+			worldTransformBlockYoko->UpdateMatrix();
+			worldTransformBlockYoko->matWorld_ = MakeAffineMatrix(worldTransformBlockYoko->scale_, worldTransformBlockYoko->rotation_, worldTransformBlockYoko->translation_);
+
+			worldTransformBlockYoko->TransferMatrix();
+		}
+	}
+}
 void GameScene::GenerateBlocks() {
 	const uint32_t numBlockVirtical = mapChipField_->GetkNumkBlockVirtical();
 	const uint32_t numBlockHorizontal = mapChipField_->GetkNumkBlockHorizontal();
-	const float kBlockWidth = 2.0f;
-	const float kBlockHeight = 2.0f;
+
 	worldTransformBlocks_.resize(numBlockVirtical);
 
 	for (uint32_t i = 0; i < numBlockVirtical; ++i) {
@@ -69,46 +119,14 @@ void GameScene::GenerateBlocks() {
 
 	for (uint32_t i = 0; i < numBlockVirtical; ++i) {
 		for (uint32_t j = 0; j < numBlockHorizontal; ++j) {
-			if (j % 2 == (i % 2)) {
-				worldTransformBlocks_[i][j] = new WorldTransform();
+			if (mapChipField_->GetMapChipTypeByIndex(j, i) == MapChipType::kBlock) {
+				WorldTransform* worldTransform = new WorldTransform();
+				worldTransformBlocks_[i][j] = worldTransform;
 				worldTransformBlocks_[i][j]->Initialize();
-				worldTransformBlocks_[i][j]->translation_.x = kBlockWidth * j;
-				worldTransformBlocks_[i][j]->translation_.y = kBlockHeight * i;
-			} else {
-				worldTransformBlocks_[i][j] = nullptr;
+				worldTransformBlocks_[i][j]->translation_ = mapChipField_->GetMapChipPositionByIndex(j, i);
 			}
 		}
 	}
-}
-
-void GameScene::Update() {
-#ifdef _DEBUG
-	if (input_->TriggerKey(DIK_SPACE)) {
-		if (isDebugCameraActive_ == true)
-			isDebugCameraActive_ = false;
-		else
-			isDebugCameraActive_ = true;
-	}
-#endif
-	if (isDebugCameraActive_) {
-		debugCamera_->Update();
-		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
-		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
-		viewProjection_.TransferMatrix();
-	} else {
-		viewProjection_.UpdateMatrix();
-	}
-	player_->Update();
-	for (std::vector<WorldTransform*> worldTransformBlockTate : worldTransformBlocks_) {
-		for (WorldTransform* worldTransformBlockYoko : worldTransformBlockTate) {
-			if (!worldTransformBlockYoko)
-				continue;
-			worldTransformBlockYoko->UpdateMatrix();
-		}
-	}
-	skydome_->Update();
-	mapChipField_->Update();
-	cameraController_->Update();
 }
 
 void GameScene::Draw() {
@@ -138,10 +156,9 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 
-	player_->Draw();
 	skydome_->Draw();
-	mapChipField_->Draw();
-	for (std::vector<WorldTransform*> worldTransformBlockTate : worldTransformBlocks_) {
+
+	for (vector<WorldTransform*> worldTransformBlockTate : worldTransformBlocks_) {
 		for (WorldTransform* worldTransformBlockYoko : worldTransformBlockTate) {
 			if (!worldTransformBlockYoko)
 				continue;
@@ -149,6 +166,8 @@ void GameScene::Draw() {
 			modelBlock_->Draw(*worldTransformBlockYoko, viewProjection_);
 		}
 	}
+
+	player_->Draw();
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
