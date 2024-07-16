@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <cassert>
 #include <numbers>
+using namespace std;
 
 void Player::Initialize(Model* model, ViewProjection* viewProjection, const Vector3& position) {
 
@@ -19,7 +20,7 @@ void Player::Initialize(Model* model, ViewProjection* viewProjection, const Vect
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = position;
 	// 右を向かせる(πとか数値情報が定義されてる)
-	worldTransform_.rotation_.y = std::numbers::pi_v<float> / 2.0f;
+	worldTransform_.rotation_.y = numbers::pi_v<float> / 2.0f;
 
 	viewProjection_ = viewProjection;
 }
@@ -148,12 +149,12 @@ void Player::InputMove()
 			// 加速/減速
 			velocity_ += acceleration;
 			// 最大速度制限
-			velocity_.x = std::clamp(velocity_.x, -kLimitRunSpeed, kLimitRunSpeed);
+			velocity_.x = clamp(velocity_.x, -kLimitRunSpeed, kLimitRunSpeed);
 		} else {
 			// 非入力時は移動減衰をかける
 			velocity_.x *= (1.0f - kAttenuation);
 		}
-		if (std::abs(velocity_.x) <= 0.0001f) {
+		if (abs(velocity_.x) <= 0.0001f) {
 			velocity_.x = 0.0f;
 		}
 		if (Input::GetInstance()->PushKey(DIK_UP)) {
@@ -164,7 +165,7 @@ void Player::InputMove()
 		// 落下速度
 		velocity_ += Vector3(0, -kGravityAcceleration / 60.0f, 0);
 		// 落下速度制限
-		velocity_.y = std::max(velocity_.y, -kLimitFallSpeed);
+		velocity_.y = max(velocity_.y, -kLimitFallSpeed);
 	}
 }
 
