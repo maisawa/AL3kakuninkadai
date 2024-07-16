@@ -1,7 +1,7 @@
 #define NOMINMAX
-#include "CameraController.h"
-#include "Player.h"
-#include "myMath.h"
+#include "cameracontroller.h"
+#include "player.h"
+#include "math.h"
 #include <algorithm>
 using namespace std;
 

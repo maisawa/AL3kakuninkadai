@@ -3,7 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <assert.h>
-#include "MapChipField.h"
+#include "mapchipfield.h"
 using namespace std;
 
 namespace {

@@ -1,4 +1,4 @@
-#include "AABB.h"
+#include "aabb.h"
 
 bool IsCollision(const AABB& aabb1, const AABB& aabb2) {
 

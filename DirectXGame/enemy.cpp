@@ -1,5 +1,5 @@
-#include "Enemy.h"
-#include "myMath.h"
+#include "enemy.h"
+#include "math.h"
 #include <cassert>
 #include <numbers>
 

@@ -1,8 +1,9 @@
 #define NOMINMAX
 
-#include "DeathParticles.h"
-#include "myMath.h"
+#include "deathparticles.h"
+#include "math.h"
 #include <cassert>
+using namespace std;
 
 void DeathParticles::Initialize(Model* model, ViewProjection* viewProjection, const Vector3& position) {
     // NULLポインタチェック
@@ -40,7 +41,7 @@ void DeathParticles::Update() {
 	    worldTransform.UpdateMatrix();
 	}
 
-	color_.w = std::max(0.0f, 1.0f - counter_ / kDuration);
+	color_.w = max(0.0f, 1.0f - counter_ / kDuration);
 	objectColor_.SetColor(color_);
 	objectColor_.TransferMatrix();
 }

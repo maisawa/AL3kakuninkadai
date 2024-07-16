@@ -1,11 +1,11 @@
 #define NOMINMAX
 
-#include "Player.h"
+#include "player.h"
 #include "DebugText.h"
 #include "Input.h"
-#include "MapChipField.h"
-#include "myMath.h"
-#include "Easing.h"
+#include "mapchipfield.h"
+#include "math.h"
+#include "easing.h"
 #include <algorithm>
 #include <cassert>
 #include <numbers>

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "AABB.h"
+#include "aabb.h"
 #include "Model.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
@@ -78,5 +78,6 @@ private:
 	float turnFirstRotationY_ = 0.0f;
 	float turnTimer_ = 0.0f;
 	MapChipField* mapChipField_ = nullptr;
+	bool isDead_ = false;
 
 };
