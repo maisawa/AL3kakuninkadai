@@ -115,7 +115,7 @@
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mapchipfield.cpp" />
-    <ClCompile Include="math.cpp" />
+    <ClCompile Include="mymath.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
     <ClCompile Include="skydome.cpp" />
@@ -152,7 +152,7 @@
     <ClInclude Include="enemy.h" />
     <ClInclude Include="input\Input.h" />
     <ClInclude Include="mapchipfield.h" />
-    <ClInclude Include="math.h" />
+    <ClInclude Include="mymath.h" />
     <ClInclude Include="math\Matrix4x4.h" />
     <ClInclude Include="math\Vector2.h" />
     <ClInclude Include="math\Vector3.h" />

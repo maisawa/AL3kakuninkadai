@@ -1,8 +1,9 @@
 #define NOMINMAX
 #include "cameracontroller.h"
 #include "player.h"
-#include "math.h"
+#include "mymath.h"
 #include <algorithm>
+#include <mymath.h>
 using namespace std;
 
 void CameraController::Initialize() {

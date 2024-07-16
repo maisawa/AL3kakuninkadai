@@ -53,6 +53,7 @@ public:
 	void AnimateTurn();
 
 	Vector3 CornerPosition(const Vector3& center, Corner corner);
+	bool IsDead();
 
 private:
 	static inline const float kAcceleration = 0.1f;

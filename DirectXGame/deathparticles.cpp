@@ -1,12 +1,12 @@
 #define NOMINMAX
 
-#include "deathparticles.h"
-#include "math.h"
+#include "DeathParticles.h"
+#include "myMath.h"
 #include <cassert>
 using namespace std;
 
 void DeathParticles::Initialize(Model* model, ViewProjection* viewProjection, const Vector3& position) {
-    // NULLÉ|ÉCÉìÉ^É`ÉFÉbÉN
+    // NULL„Éù„Ç§„É≥„Çø„ÉÅ„Çß„ÉÉ„ÇØ
 	assert(model); 
 
 	model_ = model;
@@ -30,7 +30,7 @@ void DeathParticles::Update() {
 
 	for (uint32_t i = 0; i < worldTransforms_.size(); ++i) {
 		Vector3 velocity = {kSpeed, 0, 0};
-		// ë¨ìxÉxÉNÉgÉãÇâÒì]Ç≥ÇÍÇÈ
+		// ÈÄüÂ∫¶„Éô„ÇØ„Éà„É´„ÇíÂõûËª¢„Åï„Çå„Çã
 		float angle = kAngleUnit * i;
 		Matrix4x4 matrixRotation = MakeRotateZMatrix(angle);
 		velocity = Transform(velocity, matrixRotation);

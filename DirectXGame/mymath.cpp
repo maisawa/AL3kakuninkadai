@@ -1,6 +1,8 @@
-#include "math.h"
+#include "mymath.h"
 #include <numbers>
 #include <cmath>
+#include <cassert>
+using namespace std;
 
 Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate) {
 
@@ -119,7 +121,7 @@ const Vector3 operator/(const Vector3& v, float s) {
 }
 
 float EaseInOut(float x1, float x2, float t) {
-	float easedT = -(std::cosf(std::numbers::pi_v<float> * t) - 1.0f) / 2.0f;
+	float easedT = -(cosf(numbers::pi_v<float> * t) - 1.0f) / 2.0f;
 	return Lerp(x1, x2, easedT);
 }
 
@@ -129,4 +131,16 @@ float Lerp(float x1, float x2, float t) {
 
 Vector3 Lerp(const Vector3& v1, const Vector3& v2, float t) { 
 	return Vector3(Lerp(v1.x, v2.x, t), Lerp(v1.y, v2.y, t), Lerp(v1.z, v2.z, t)); 
+}
+Vector3 Transform(const Vector3& vector, const Matrix4x4& matrix) {
+	Vector3 result;
+	result.x = vector.x * matrix.m[0][0] + vector.y * matrix.m[1][0] + vector.z * matrix.m[2][0] + 1.0f * matrix.m[3][0];
+	result.y = vector.x * matrix.m[0][1] + vector.y * matrix.m[1][1] + vector.z * matrix.m[2][1] + 1.0f * matrix.m[3][1];
+	result.z = vector.x * matrix.m[0][2] + vector.y * matrix.m[1][2] + vector.z * matrix.m[2][2] + 1.0f * matrix.m[3][2];
+	float w = vector.x * matrix.m[0][3] + vector.y * matrix.m[1][3] + vector.z * matrix.m[2][3] + 1.0f * matrix.m[3][3];
+	assert(w != 0.0f);
+	result.x /= w;
+	result.y /= w;
+	result.z /= w;
+	return result;
 }

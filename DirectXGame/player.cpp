@@ -4,7 +4,7 @@
 #include "DebugText.h"
 #include "Input.h"
 #include "mapchipfield.h"
-#include "math.h"
+#include "mymath.h"
 #include "easing.h"
 #include <algorithm>
 #include <cassert>
@@ -433,4 +433,8 @@ Vector3 Player::CornerPosition(const Vector3& center, Corner corner) {
 	};
 
 	return center + offsetTable[static_cast<uint32_t>(corner)];
+}
+
+bool Player::IsDead(){
+	return isDead_;
 }
