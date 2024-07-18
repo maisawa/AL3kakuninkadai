@@ -76,7 +76,7 @@ private: // メンバ変数
 	uint32_t textureHandle_ = 0;
 	Player* player_ = nullptr;
 	Enemy* enemy_ = nullptr;
-	Model* modelPlayer_ = nullptr;
+	Model* model_ = nullptr;
 	Model* modelBlock_ = nullptr;
 	Model* modelSkydome_ = nullptr;
 	Model* modelEnemy_ = nullptr;
