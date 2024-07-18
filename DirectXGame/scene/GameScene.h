@@ -15,6 +15,7 @@
 #include "WorldTransform.h"
 #include <list>
 #include <vector>
+using namespace std;
 
 /// <summary>
 /// ゲームシーン
@@ -49,6 +50,16 @@ public: // メンバ関数
 
 	bool IsFinished() const { return finished_; };
 
+	void ChangePhase();
+
+	void GenerateBlocks();
+
+	void UpdateCamera();
+
+	void UpdateBlocks();
+
+	void CheckAllCollisions();
+
 private: // メンバ変数
 
 	enum class Phase {
@@ -63,44 +74,22 @@ private: // メンバ変数
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
-	// ビュープロジェクション
 	ViewProjection viewProjection_;
-	// テクスチャハンドル
 	uint32_t textureHandle_ = 0;
-	// 自キャラ
 	Player* player_ = nullptr;
-	// モデルデータ
 	Model* modelPlayer_ = nullptr;
 	Model* modelBlock_ = nullptr;
 	Model* modelSkydome_ = nullptr;
 	Model* modelEnemy_ = nullptr;
 	Model* modelDeathParticle_ = nullptr;
-	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
+	vector<vector<WorldTransform*>> worldTransformBlocks_;
 	WorldTransform worldTransformSkydome_;
-	// デバッグカメラ
 	DebugCamera* debugCamera_ = nullptr;
-	// デバッグカメラ有効
 	bool isDebugCameraActive_ = false;
-	// マップチップフィールド
 	MapChipField* mapChipField_;
 	CameraController* cameraController = nullptr;
-
-	std::list<Enemy*> enemies_;
-
+	list<Enemy*> enemies_;
 	bool finished_ = false;
 	Phase phase_;
-
 	DeathParticles* deathParticles_ = nullptr;
-
-	void ChangePhase();
-
-	void GenerateBlocks();
-
-	void UpdateCamera();
-
-	void UpdateBlocks();
-
- 	// 衝突判定と応答
-
-	void CheckAllCollisions();
 };

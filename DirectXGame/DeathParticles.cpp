@@ -5,11 +5,8 @@
 #include <cassert>
 
 void DeathParticles::Initialize(Model* model, ViewProjection* viewProjection, const Vector3& position) {
-    // NULLポインタチェック
 	assert(model); 
-
 	model_ = model;
-
 	for (auto& worldTransform : worldTransforms_) {
 		worldTransform.Initialize();
 		worldTransform.translation_ = position;
@@ -29,7 +26,6 @@ void DeathParticles::Update() {
 
 	for (uint32_t i = 0; i < worldTransforms_.size(); ++i) {
 		Vector3 velocity = {kSpeed, 0, 0};
-		// 速度ベクトルを回転される
 		float angle = kAngleUnit * i;
 		Matrix4x4 matrixRotation = MakeRotateZMatrix(angle);
 		velocity = Transform(velocity, matrixRotation);
