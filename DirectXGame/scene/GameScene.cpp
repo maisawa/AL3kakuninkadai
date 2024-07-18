@@ -1,5 +1,5 @@
 #include "GameScene.h"
-#include "math.h"
+#include "mymath.h"
 #include "TextureManager.h"
 #include <cassert>
 #include <cstdint>
@@ -8,7 +8,7 @@ GameScene::GameScene() {}
 
 GameScene::~GameScene() {
 
-	delete deathparticles_;
+	delete deathParticles_;
 	for (Enemy* enemy : enemies_) {
 		delete enemy;
 	}
@@ -21,12 +21,12 @@ GameScene::~GameScene() {
 	}
 	delete modelDeathParticle_;
 	delete modelEnemy_;
-	delete model_;
+	delete modelPlayer_;
 	delete modelBlock_;
 	delete debugCamera_;
 	delete modelSkydome_;
 	delete mapChipField_;
-	delete cameraController_;
+	delete cameraController;
 }
 
 void GameScene::Initialize() {
@@ -39,7 +39,7 @@ void GameScene::Initialize() {
 	viewProjection_.Initialize();
 
 	// 3Dモデルの生成
-	model_ = Model::CreateFromOBJ("player");
+	modelPlayer_ = Model::CreateFromOBJ("player");
 	modelEnemy_ = Model::CreateFromOBJ("enemy");
 	modelBlock_ = Model::CreateFromOBJ("block");
 	modelSkydome_ = Model::CreateFromOBJ("sphere", true);
@@ -47,14 +47,14 @@ void GameScene::Initialize() {
 
 	// マップチップフィールドの生成
 	mapChipField_ = new MapChipField;
-	mapChipField_->LoadMapChipCsv("Resources/map.csv");
+	mapChipField_->LoadMapChipCsv("Resources/blocks.csv");
 
 	// 自キャラの生成
 	player_ = new Player();
 	// 自キャラの初期化
 	// 座標をマップチップ番号で指定
 	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(5, 16);
-	player_->Initialize(model_, &viewProjection_, playerPosition);
+	player_->Initialize(modelPlayer_, &viewProjection_, playerPosition);
 	player_->SetMapChipField(mapChipField_);
 
 	viewProjection_.Initialize();
@@ -62,17 +62,18 @@ void GameScene::Initialize() {
 	// デバッグカメラの生成
 	debugCamera_ = new DebugCamera(WinApp::kWindowWidth, WinApp::kWindowHeight);
 
+	// 天球の初期化
 	worldTransformSkydome_.Initialize();
 
 	GenerateBlocks();
 
-	cameraController_ = new CameraController;
-	cameraController_->Initialize();
-	cameraController_->SetTarget(player_);
-	cameraController_->Reset();
+	cameraController = new CameraController;
+	cameraController->Initialize();
+	cameraController->SetTarget(player_);
+	cameraController->Reset();
 
 	CameraController::Rect cameraArea = {12.0f, 100 - 12.0f, 6.0f, 6.0f};
-	cameraController_->SetMovableArea(cameraArea);
+	cameraController->SetMovableArea(cameraArea);
 
 	// 敵の生成
 	newEnemy_ = new Enemy();
@@ -95,7 +96,7 @@ void GameScene::Update() {
 		// 自キャラの更新
 		player_->Update();
 
-		cameraController_->Update();
+		cameraController->Update();
 
 		for (Enemy* enemy : enemies_) {
 			enemy->Update();
@@ -114,8 +115,8 @@ void GameScene::Update() {
 			enemy->Update();
 		}
 
-		if (deathparticles_) {
-			deathparticles_->Update();
+		if (deathParticles_) {
+			deathParticles_->Update();
 		}
 
 		UpdateCamera();
@@ -169,8 +170,8 @@ void GameScene::Draw() {
 		enemy->Draw();
 	}
 
-	if (deathparticles_) {
-		deathparticles_->Draw();
+	if (deathParticles_) {
+		deathParticles_->Draw();
 	}
 
 	// 3Dオブジェクト描画後処理
@@ -200,9 +201,9 @@ void GameScene::ChangePhase() {
 
 			const Vector3& deathParticlesPosition = player_->GetWorldPosition();
 			
-			deathparticles_ = new DeathParticles;
+			deathParticles_ = new DeathParticles;
 
-			deathparticles_->Initialize(modelDeathParticle_, &viewProjection_, deathParticlesPosition);
+			deathParticles_->Initialize(modelDeathParticle_, &viewProjection_, deathParticlesPosition);
 		}
 		break;
 	case Phase::kDeath:
@@ -214,8 +215,8 @@ void GameScene::ChangePhase() {
 void GameScene::GenerateBlocks() {
 
 	// 要素数
-	uint32_t numBlockVirtical = mapChipField_->GetkNumkBlockVirtical();
-	uint32_t numBlockHorizontal = mapChipField_->GetkNumkBlockHorizontal();
+	uint32_t numBlockVirtical = mapChipField_->GetNumBlockVirtical();
+	uint32_t numBlockHorizontal = mapChipField_->GetNumBlockHorizontal();
 
 	// 要素数を変更する
 	// 列数を設定 (縦方向のブロック数)
@@ -255,8 +256,8 @@ void GameScene::UpdateCamera() {
 		viewProjection_.TransferMatrix();
 	} else {
 		// ビュープロジェクション行列の更新と転送
-		viewProjection_.matView = cameraController_->GetViewProjection().matView;
-		viewProjection_.matProjection = cameraController_->GetViewProjection().matProjection;
+		viewProjection_.matView = cameraController->GetViewProjection().matView;
+		viewProjection_.matProjection = cameraController->GetViewProjection().matProjection;
 		// ビュープロジェクションの転送
 		viewProjection_.TransferMatrix();
 	}

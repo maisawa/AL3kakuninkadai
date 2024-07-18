@@ -5,17 +5,18 @@
 #include "DirectXCommon.h"
 #include "Input.h"
 #include "Model.h"
-#include "player.h"
+#include "ObjectColor.h"
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include <list>
 #include <vector>
-#include "skydome.h"
+#include "player.h"
 #include "mapchipfield.h"
 #include "cameracontroller.h"
+#include "deathparticles.h"
 #include "enemy.h"
-#include <deathparticles.h>
-using namespace std;
+
 
 /// <summary>
 /// ゲームシーン
@@ -48,22 +49,12 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
-	void GenerateBlocks();
-
-	void CheckAllCollisions();
-
-	void ChangePhase();
-
-	void UpdateCamera();
-
-	void UpdateBlocks();
-
 private: // メンバ変数
+
 	enum class Phase {
 		kPlay, // ゲームプレイ
 		kDeath, // デス演出
 	};
-
 
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -72,28 +63,45 @@ private: // メンバ変数
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
+	// ビュープロジェクション
+	ViewProjection viewProjection_;
+	// テクスチャハンドル
 	uint32_t textureHandle_ = 0;
-	Model* model_ = nullptr;
+	// 自キャラ
+	Player* player_ = nullptr;
+	Enemy* enemy_ = nullptr;
+	// モデルデータ
+	Model* modelPlayer_ = nullptr;
 	Model* modelBlock_ = nullptr;
 	Model* modelSkydome_ = nullptr;
-	//敵のモデル
 	Model* modelEnemy_ = nullptr;
 	Model* modelDeathParticle_ = nullptr;
-	WorldTransform worldTransform_;
-	ViewProjection viewProjection_;
-	Player* player_ = nullptr;
-	//敵キャラ
-	Enemy* enemy_ = nullptr;
-	vector<vector<WorldTransform*>> worldTransformBlocks_;
+	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
 	WorldTransform worldTransformSkydome_;
-	bool isDebugCameraActive_ = false;
+	// デバッグカメラ
 	DebugCamera* debugCamera_ = nullptr;
-	Skydome* skydome_ = nullptr;
-	MapChipField* mapChipField_ = nullptr;
-	CameraController* cameraController_ = nullptr;
-	list<Enemy*> enemies_;
+	// デバッグカメラ有効
+	bool isDebugCameraActive_ = false;
+	// マップチップフィールド
+	MapChipField* mapChipField_;
+	CameraController* cameraController = nullptr;
+
+	std::list<Enemy*> enemies_;
 	Enemy* newEnemy_ = nullptr;
-	//デスパーティクルのインスタンスを持たせる
-	DeathParticles* deathparticles_=nullptr;
+
 	Phase phase_;
+
+	DeathParticles* deathParticles_ = nullptr;
+
+	void ChangePhase();
+
+	void GenerateBlocks();
+
+	void UpdateCamera();
+
+	void UpdateBlocks();
+
+ 	// 衝突判定と応答
+
+	void CheckAllCollisions();
 };
