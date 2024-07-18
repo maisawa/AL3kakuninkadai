@@ -6,7 +6,6 @@
 #include "PrimitiveDrawer.h"
 #include "TextureManager.h"
 #include "WinApp.h"
-#include <SafeDelete.h>
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
@@ -95,7 +94,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	}
 
 	// 各種解放
-	SafeDelete(gameScene);
+	delete gameScene;
+	// 3Dモデル解放
+	Model::StaticFinalize();
 	audio->Finalize();
 	// ImGui解放
 	imguiManager->Finalize();
