@@ -24,19 +24,15 @@ void ChangeScene() {
 	switch (scene) {
 	case Scene::kTitle:
 		if (titleScene->IsFinished()) {
-			// シーン変更
 			scene = Scene::kGame;
-			// 旧シーンの解放
 			delete titleScene;
 			titleScene = nullptr;
-			// 新シーンの生成と初期化
 			gameScene = new GameScene;
 			gameScene->Initialize();
 		}
 		break;
 	case Scene::kGame:
 		if (gameScene->IsFinished()) {
-			// シーン変更
 			scene = Scene::kTitle;
 			delete gameScene;
 			gameScene = nullptr;
