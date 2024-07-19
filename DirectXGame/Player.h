@@ -40,11 +40,11 @@ public:
 	Vector3 GetWorldPosition();
 	AABB GetAABB();
 	void OnCollision(const Enemy* enemy);
-	void SetMapChipField(MapChipField* mapChipField) { mapChipField_ = mapChipField; }
-	const WorldTransform& GetWorldTransform() const { return worldTransform_; }
-	const Vector3& GetVelocity() const { return velocity_; }
-	bool IsDead() const { return isDead_; };
-		void InputMove();
+	void SetMapChipField(MapChipField* mapChipField);
+	const WorldTransform& GetWorldTransform();
+	const Vector3& GetVelocity();
+	bool IsDead();
+	void InputMove();
 	void CheckMapCollision(CollisionMapInfo& info);
 	void CheckMapCollisionUp(CollisionMapInfo& info);
 	void CheckMapCollisionDown(CollisionMapInfo& info);

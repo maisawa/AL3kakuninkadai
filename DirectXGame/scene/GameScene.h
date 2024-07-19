@@ -48,7 +48,7 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
-	bool IsFinished() const { return finished_; };
+	bool IsFinished();
 
 	void ChangePhase();
 
@@ -77,7 +77,7 @@ private: // メンバ変数
 	ViewProjection viewProjection_;
 	uint32_t textureHandle_ = 0;
 	Player* player_ = nullptr;
-	Model* modelPlayer_ = nullptr;
+	Model* model_ = nullptr;
 	Model* modelBlock_ = nullptr;
 	Model* modelSkydome_ = nullptr;
 	Model* modelEnemy_ = nullptr;

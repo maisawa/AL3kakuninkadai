@@ -14,7 +14,6 @@ TitleScene::~TitleScene() {
 void TitleScene::Initialize() {
 	modelTitle_ = Model::CreateFromOBJ("text", true); 
 	modelPlayer_ = Model::CreateFromOBJ("player");
-	// ビュープロジェクションの初期化
 	viewProjection_.Initialize();
 
 	const float kPlayerScale = 10.0f;
@@ -47,11 +46,14 @@ void TitleScene::Update() {
 
 void TitleScene::Draw() { 
 	DirectXCommon* dxCommon_ = DirectXCommon::GetInstance();
-	// コマンドリストの取得
 	ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();
 
 	Model::PreDraw(commandList);
 	modelTitle_->Draw(worldTransformTitle_, viewProjection_);
 	modelPlayer_->Draw(worldTransformPlayer_, viewProjection_);
 	Model::PostDraw();
+}
+
+bool TitleScene::IsFinished(){ 
+	return finished_;
 }

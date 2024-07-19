@@ -12,7 +12,7 @@ public:
 	void Initialize(Model* model, ViewProjection* viewProjection, const Vector3& position);
 	void Update();
 	void Draw();
-	bool IsFinished() const { return isFinished_; };
+	bool IsFinished();
 
 private:
 	static inline const uint32_t kNumParticles = 8;

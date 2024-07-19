@@ -3,7 +3,9 @@
 #include <algorithm>
 using namespace std;
 
-void CameraController::Initialize() { viewProjection_.Initialize(); }
+void CameraController::Initialize() { 
+	viewProjection_.Initialize(); 
+}
 void CameraController::Update() {
 	const WorldTransform& targetWorldTransform = target_->GetWorldTransform();
 	Vector3 targetVelocity = target_->GetVelocity();
@@ -25,10 +27,26 @@ void CameraController::Update() {
 	viewProjection_.UpdateMatrix();
 }
 
+void CameraController::SetTarget(Player* target) { 
+	target_ = target; 
+}
+
 void CameraController::Reset() {
 	const WorldTransform& targetWorldTransform = target_->GetWorldTransform();
 
 	viewProjection_.translation_.x = targetWorldTransform.translation_.x + targetOffset_.x;
 	viewProjection_.translation_.y = targetWorldTransform.translation_.y + targetOffset_.y;
 	viewProjection_.translation_.z = targetWorldTransform.translation_.z + targetOffset_.z;
+}
+
+ViewProjection& CameraController::GetViewProjection(){
+	return viewProjection_;
+}
+
+void CameraController::SetMovableArea(Rect area) {
+	movableArea_ = area;
+}
+
+float CameraController::Lerp(float x1, float x2, float t){ 
+	return (1.0f - t) * x1 + t * x2; 
 }

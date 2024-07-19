@@ -75,6 +75,14 @@ MapChipField::IndexSet MapChipField::GetMapChipIndexSetByPosition(const Vector3&
 	return indexSet;
 }
 
+uint32_t MapChipField::GetNumBlockVirtical(){
+	return kNumBlockVirtical;
+}
+
+uint32_t MapChipField::GetNumBlockHorizontal(){
+	return kNumBlockHorizontal; 
+}
+
 MapChipField::Rect MapChipField::GetRectByIndex(uint32_t xIndex, uint32_t yIndex) { 
 	Vector3 center = GetMapChipPositionByIndex(xIndex, yIndex);
 

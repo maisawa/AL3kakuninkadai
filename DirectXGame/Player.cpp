@@ -71,6 +71,22 @@ void Player::OnCollision(const Enemy* enemy) {
 	isDead_ = true;
 }
 
+void Player::SetMapChipField(MapChipField* mapChipField) { 
+	mapChipField_ = mapChipField; 
+}
+
+const WorldTransform& Player::GetWorldTransform(){ 
+	return worldTransform_; 
+}
+
+const Vector3& Player::GetVelocity() { 
+	return velocity_; 
+}
+
+bool Player::IsDead() { 
+	return isDead_; 
+}
+
 void Player::InputMove() 
 {
 	if (onGround_) {

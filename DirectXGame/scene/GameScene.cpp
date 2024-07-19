@@ -22,7 +22,7 @@ GameScene::~GameScene() {
 	}
 	delete modelDeathParticle_;
 	delete modelEnemy_;
-	delete modelPlayer_;
+	delete model_;
 	delete modelBlock_;
 	delete debugCamera_;
 	delete modelSkydome_;
@@ -38,7 +38,7 @@ void GameScene::Initialize() {
 
 	viewProjection_.Initialize();
 
-	modelPlayer_ = Model::CreateFromOBJ("player");
+	model_ = Model::CreateFromOBJ("player");
 	modelEnemy_ = Model::CreateFromOBJ("enemy");
 	modelBlock_ = Model::CreateFromOBJ("block");
 	modelSkydome_ = Model::CreateFromOBJ("sphere", true);
@@ -49,7 +49,7 @@ void GameScene::Initialize() {
 
 	player_ = new Player();
 	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(5, 16);
-	player_->Initialize(modelPlayer_, &viewProjection_, playerPosition);
+	player_->Initialize(model_, &viewProjection_, playerPosition);
 	player_->SetMapChipField(mapChipField_);
 
 	viewProjection_.Initialize();
@@ -202,6 +202,10 @@ void GameScene::ChangePhase() {
 		break;
 	}
 }
+
+bool GameScene::IsFinished() { 
+	return finished_; 
+};
 
 void GameScene::GenerateBlocks() {
 

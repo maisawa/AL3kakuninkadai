@@ -14,7 +14,7 @@ public:
 
 	void Draw();
 
-	bool IsFinished() const { return finished_; };
+	bool IsFinished();
 
 private:
 	static inline const float kTimeTitleMove = 2.0f;

@@ -19,11 +19,11 @@ public:
 	
 	void Initialize();
 	void Update();
-	void SetTarget(Player* target) { target_ = target; }
+	void SetTarget(Player* target);
 	void Reset();
-	ViewProjection& GetViewProjection() { return viewProjection_; }
-	void SetMovableArea(Rect area) { movableArea_ = area; }
-	float Lerp(float x1, float x2, float t) { return (1.0f - t) * x1 + t * x2; }
+	ViewProjection& GetViewProjection();
+	void SetMovableArea(Rect area);
+	float Lerp(float x1, float x2, float t);
 
 private:
 	ViewProjection viewProjection_;

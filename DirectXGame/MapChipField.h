@@ -36,8 +36,8 @@ public:
 	MapChipType GetMapChipTypeByIndex(uint32_t xIndex, uint32_t yIndex);
 	MapChipType GetMapChipTypeByPosition(const Vector3& position);
 	IndexSet GetMapChipIndexSetByPosition(const Vector3& position);
-	uint32_t GetNumBlockVirtical() const { return kNumBlockVirtical; };
-	uint32_t GetNumBlockHorizontal() const { return kNumBlockHorizontal; };
+	uint32_t GetNumBlockVirtical();
+	uint32_t GetNumBlockHorizontal();
 	Rect GetRectByIndex(uint32_t xIndex, uint32_t yIndex);
 
 private:
