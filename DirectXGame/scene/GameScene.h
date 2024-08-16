@@ -1,13 +1,21 @@
 #pragma once
 
 #include "Audio.h"
+#include "CameraController.h"
+#include "DebugCamera.h"
+#include "DeathParticles.h"
 #include "DirectXCommon.h"
+#include "Enemy.h"
 #include "Input.h"
+#include "MapChipField.h"
 #include "Model.h"
-#include "SafeDelete.h"
+#include "Player.h"
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include <list>
+#include <vector>
+using namespace std;
 
 /// <summary>
 /// ゲームシーン
@@ -40,7 +48,25 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
+	bool IsFinished();
+
+	void ChangePhase();
+
+	void GenerateBlocks();
+
+	void UpdateCamera();
+
+	void UpdateBlocks();
+
+	void CheckAllCollisions();
+
 private: // メンバ変数
+
+	enum class Phase {
+		kPlay, // ゲームプレイ
+		kDeath, // デス演出
+	};
+
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
@@ -48,4 +74,22 @@ private: // メンバ変数
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
+	ViewProjection viewProjection_;
+	uint32_t textureHandle_ = 0;
+	Player* player_ = nullptr;
+	Model* model_ = nullptr;
+	Model* modelBlock_ = nullptr;
+	Model* modelSkydome_ = nullptr;
+	Model* modelEnemy_ = nullptr;
+	Model* modelDeathParticle_ = nullptr;
+	vector<vector<WorldTransform*>> worldTransformBlocks_;
+	WorldTransform worldTransformSkydome_;
+	DebugCamera* debugCamera_ = nullptr;
+	bool isDebugCameraActive_ = false;
+	MapChipField* mapChipField_;
+	CameraController* cameraController = nullptr;
+	list<Enemy*> enemies_;
+	bool finished_ = false;
+	Phase phase_;
+	DeathParticles* deathParticles_ = nullptr;
 };
