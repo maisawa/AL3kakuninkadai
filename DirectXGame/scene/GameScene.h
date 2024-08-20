@@ -92,4 +92,5 @@ private: // メンバ変数
 	bool finished_ = false;
 	Phase phase_;
 	DeathParticles* deathParticles_ = nullptr;
+	Vector3 scale={3,3,3};
 };

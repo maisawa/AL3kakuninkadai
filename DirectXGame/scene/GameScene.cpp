@@ -83,7 +83,7 @@ void GameScene::Update() {
 
 	switch (phase_) { 
 	case Phase::kPlay:
-		worldTransformSkydome_.UpdateMatrix();
+		worldTransformSkydome_.UpdateMatrix(scale);
 
 		player_->Update();
 
@@ -103,7 +103,7 @@ void GameScene::Update() {
 		if (deathParticles_ && deathParticles_->IsFinished()) {
 			finished_ = true;
 		}
-		worldTransformSkydome_.UpdateMatrix();
+		worldTransformSkydome_.UpdateMatrix(scale);
 
 		for (Enemy* enemy : enemies_) {
 			enemy->Update();
