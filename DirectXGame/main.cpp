@@ -16,6 +16,7 @@ enum class Scene {
 
 	kTitle,
 	kGame,
+	//kClear,
 };
 
 Scene scene = Scene::kTitle;
@@ -41,6 +42,10 @@ void ChangeScene() {
 		}
 		break;
 	}
+	//case Scene::kClear:
+	//scene=Scene::kTitle;
+
+	//break;
 }
 void UpdateScene() {
 	switch (scene) {
@@ -51,6 +56,9 @@ void UpdateScene() {
 		gameScene->Update();
 		break;
 	}
+	//case Scene::kClear:
+	
+	//break;
 }
 void DrawScene() {
 	switch (scene) { 
@@ -61,6 +69,9 @@ void DrawScene() {
 		gameScene->Draw();
 		break;
 	}
+	//case Scene::kClear:
+
+	//break;
 }
 
 // Windowsアプリでのエントリーポイント(main関数)
@@ -153,6 +164,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// 各種解放
 	delete titleScene;
 	delete gameScene;
+	//delete clearScene;
+
 	// 3Dモデル解放
 	Model::StaticFinalize();
 	audio->Finalize();

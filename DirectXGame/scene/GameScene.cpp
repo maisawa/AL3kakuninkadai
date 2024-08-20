@@ -43,6 +43,7 @@ void GameScene::Initialize() {
 	modelBlock_ = Model::CreateFromOBJ("block");
 	modelSkydome_ = Model::CreateFromOBJ("sphere", true);
 	modelDeathParticle_ = Model::CreateFromOBJ("deathParticle", true);
+	//modelGoal_=Model::OBJ関数呼んでファイルを読み込む
 
 	mapChipField_ = new MapChipField;
 	mapChipField_->LoadMapChipCsv("Resources/map.csv");

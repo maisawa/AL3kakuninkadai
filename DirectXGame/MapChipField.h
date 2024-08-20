@@ -7,6 +7,7 @@ using namespace std;
 enum class MapChipType {
 	kBlank, // 空白
 	kBlock, // ブロック
+
 };
 
 struct MapChipData {

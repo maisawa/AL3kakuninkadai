@@ -10,6 +10,7 @@ namespace {
     map<string, MapChipType> mapChipTable = { 
         {"0", MapChipType::kBlank},
         {"1", MapChipType::kBlock},
+		//2を追加
     };
 }
 
