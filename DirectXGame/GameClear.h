@@ -1,8 +1,8 @@
-#pragma once
-class ClearScene{
-public:
-
-
-private:
-
-};
+//#pragma once
+//class ClearScene{
+//public:
+//
+//
+//private:
+//
+//};
