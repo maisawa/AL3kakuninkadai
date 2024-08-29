@@ -7,7 +7,7 @@
 
 class MapChipField;
 class Enemy;
-
+class Goal;
 
 class Player {
 public:
@@ -40,10 +40,12 @@ public:
 	Vector3 GetWorldPosition();
 	AABB GetAABB();
 	void OnCollision(const Enemy* enemy);
+	void OnCollision(const Goal* goal);
 	void SetMapChipField(MapChipField* mapChipField);
 	const WorldTransform& GetWorldTransform();
 	const Vector3& GetVelocity();
 	bool IsDead();
+	bool IsHit();
 	void InputMove();
 	void CheckMapCollision(CollisionMapInfo& info);
 	void CheckMapCollisionUp(CollisionMapInfo& info);
@@ -81,4 +83,5 @@ private:
 	float turnTimer_ = 0.0f;
 	MapChipField* mapChipField_ = nullptr;
 	bool isDead_ = false;
+	bool isHit_ = false;
 };

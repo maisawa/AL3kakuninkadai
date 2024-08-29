@@ -13,10 +13,9 @@ TitleScene* titleScene = nullptr;
 
 enum class Scene { 
 	kUnknown = 0,
-
 	kTitle,
 	kGame,
-	//kClear,
+	kClear,
 };
 
 Scene scene = Scene::kTitle;
@@ -41,11 +40,15 @@ void ChangeScene() {
 			titleScene->Initialize();
 		}
 		break;
-	}
-	//case Scene::kClear:
-	//scene=Scene::kTitle;
+	case Scene::kClear:
+		if(gameScene->IsFinished()){
+		scene=Scene::kTitle;
 
-	//break;
+		}
+
+	break;
+	}
+	
 }
 void UpdateScene() {
 	switch (scene) {
@@ -55,10 +58,11 @@ void UpdateScene() {
 	case Scene::kGame:
 		gameScene->Update();
 		break;
-	}
 	//case Scene::kClear:
-	
+		//clearScene->Update();
 	//break;
+	}
+	
 }
 void DrawScene() {
 	switch (scene) { 
@@ -68,10 +72,11 @@ void DrawScene() {
 	case Scene::kGame:
 		gameScene->Draw();
 		break;
-	}
 	//case Scene::kClear:
-
+		//clearScene->Draw();
 	//break;
+	}
+	
 }
 
 // Windowsアプリでのエントリーポイント(main関数)

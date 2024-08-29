@@ -5,7 +5,9 @@
 #include <cstdint>
 using namespace std;
 
-GameScene::GameScene() {}
+GameScene::GameScene() {
+
+}
 
 GameScene::~GameScene() {
 
@@ -24,6 +26,7 @@ GameScene::~GameScene() {
 	delete modelEnemy_;
 	delete model_;
 	delete modelBlock_;
+	delete modelGoal_;
 	delete debugCamera_;
 	delete modelSkydome_;
 	delete mapChipField_;
@@ -41,9 +44,10 @@ void GameScene::Initialize() {
 	model_ = Model::CreateFromOBJ("player");
 	modelEnemy_ = Model::CreateFromOBJ("enemy");
 	modelBlock_ = Model::CreateFromOBJ("block");
+	modelGoal_=Model::CreateFromOBJ("player");
 	modelSkydome_ = Model::CreateFromOBJ("sphere", true);
 	modelDeathParticle_ = Model::CreateFromOBJ("deathParticle", true);
-	//modelGoal_=Model::OBJ関数呼んでファイルを読み込む
+	
 
 	mapChipField_ = new MapChipField;
 	mapChipField_->LoadMapChipCsv("Resources/map.csv");
@@ -70,10 +74,13 @@ void GameScene::Initialize() {
 	cameraController->SetMovableArea(cameraArea);
 
 	Enemy* newEnemy = new Enemy();
-	Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(14, 18);
+	Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(7, 7);
 	newEnemy->Initialize(modelEnemy_, &viewProjection_, enemyPosition);
-
 	enemies_.push_back(newEnemy);
+
+	goal_ = new Goal();
+	Vector3 goalPosition = mapChipField_->GetMapChipPositionByIndex(108, 18);
+	goal_->Initialize(modelGoal_, &viewProjection_, goalPosition);
 
 	phase_ = Phase::kPlay;
 }
@@ -87,6 +94,8 @@ void GameScene::Update() {
 		worldTransformSkydome_.UpdateMatrix(scale);
 
 		player_->Update();
+
+		goal_->Update();
 
 		cameraController->Update();
 
@@ -115,6 +124,8 @@ void GameScene::Update() {
 		}
 
 		UpdateCamera();
+		break;
+	case Phase::kClear:
 		break;
 	}
 }
@@ -155,6 +166,9 @@ void GameScene::Draw() {
 			modelBlock_->Draw(*worldTransformBlock, viewProjection_);
 		}
 	}
+
+	goal_->Draw();
+
 	if (!player_->IsDead()) {
 		player_->Draw();
 	}
@@ -197,8 +211,21 @@ void GameScene::ChangePhase() {
 
 			deathParticles_->Initialize(modelDeathParticle_, &viewProjection_, deathParticlesPosition);
 		}
+		if (player_->IsHit()) {
+			phase_ = Phase::kDeath;
+
+			const Vector3& deathParticlesPosition = player_->GetWorldPosition();
+			
+			deathParticles_ = new DeathParticles;
+
+			deathParticles_->Initialize(modelDeathParticle_, &viewProjection_, deathParticlesPosition);
+		}
 		break;
 	case Phase::kDeath:
+
+		break;
+
+	case Phase::kClear:
 
 		break;
 	}
@@ -274,6 +301,21 @@ void GameScene::CheckAllCollisions() {
 				player_->OnCollision(enemy);
 				enemy->OnCollision(player_);
 			}
+		}
+
+		
+	}
+	#pragma endregion
+
+	#pragma region 自キャラとゴールの当たり判定
+	{
+		aabb1 = player_->GetAABB();
+
+		aabb2 = goal_->GetAABB();
+
+		if (IsCollision(aabb1, aabb2)) {
+			player_->OnCollision(goal_);
+			goal_->OnCollision(player_);
 		}
 	}
 	#pragma endregion

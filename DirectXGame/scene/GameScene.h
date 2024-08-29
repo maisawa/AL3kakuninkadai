@@ -1,20 +1,23 @@
 #pragma once
 
 #include "Audio.h"
-#include "CameraController.h"
 #include "DebugCamera.h"
-#include "DeathParticles.h"
 #include "DirectXCommon.h"
-#include "Enemy.h"
 #include "Input.h"
-#include "MapChipField.h"
 #include "Model.h"
-#include "Player.h"
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include <list>
 #include <vector>
+
+#include "CameraController.h"
+#include "DeathParticles.h"
+#include "Enemy.h"
+#include "MapChipField.h"
+#include "Player.h"
+#include "Goal.h"
+
 using namespace std;
 
 /// <summary>
@@ -65,6 +68,7 @@ private: // メンバ変数
 	enum class Phase {
 		kPlay, // ゲームプレイ
 		kDeath, // デス演出
+		kClear,//クリア
 	};
 
 	DirectXCommon* dxCommon_ = nullptr;
@@ -76,12 +80,15 @@ private: // メンバ変数
 	/// </summary>
 	ViewProjection viewProjection_;
 	uint32_t textureHandle_ = 0;
+
 	Player* player_ = nullptr;
 	Model* model_ = nullptr;
 	Model* modelBlock_ = nullptr;
 	Model* modelSkydome_ = nullptr;
 	Model* modelEnemy_ = nullptr;
 	Model* modelDeathParticle_ = nullptr;
+	Model* modelGoal_ = nullptr;
+
 	vector<vector<WorldTransform*>> worldTransformBlocks_;
 	WorldTransform worldTransformSkydome_;
 	DebugCamera* debugCamera_ = nullptr;
@@ -93,4 +100,5 @@ private: // メンバ変数
 	Phase phase_;
 	DeathParticles* deathParticles_ = nullptr;
 	Vector3 scale={3,3,3};
+	Goal* goal_;
 };

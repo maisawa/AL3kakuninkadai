@@ -71,6 +71,11 @@ void Player::OnCollision(const Enemy* enemy) {
 	isDead_ = true;
 }
 
+void Player::OnCollision(const Goal* goal) {
+	(void)goal; 
+	isHit_ = true;
+}
+
 void Player::SetMapChipField(MapChipField* mapChipField) { 
 	mapChipField_ = mapChipField; 
 }
@@ -85,6 +90,10 @@ const Vector3& Player::GetVelocity() {
 
 bool Player::IsDead() { 
 	return isDead_; 
+}
+
+bool Player::IsHit() { 
+	return isHit_; 
 }
 
 void Player::InputMove() 
