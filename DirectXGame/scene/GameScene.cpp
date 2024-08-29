@@ -44,7 +44,7 @@ void GameScene::Initialize() {
 	model_ = Model::CreateFromOBJ("player");
 	modelEnemy_ = Model::CreateFromOBJ("enemy");
 	modelBlock_ = Model::CreateFromOBJ("block");
-	modelGoal_=Model::CreateFromOBJ("player");
+	modelGoal_=Model::CreateFromOBJ("goalblock");
 	modelSkydome_ = Model::CreateFromOBJ("sphere", true);
 	modelDeathParticle_ = Model::CreateFromOBJ("deathParticle", true);
 	
@@ -73,10 +73,85 @@ void GameScene::Initialize() {
 	CameraController::Rect cameraArea = {12.0f, 100 - 12.0f, 6.0f, 6.0f};
 	cameraController->SetMovableArea(cameraArea);
 
-	Enemy* newEnemy = new Enemy();
-	Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(7, 7);
-	newEnemy->Initialize(modelEnemy_, &viewProjection_, enemyPosition);
-	enemies_.push_back(newEnemy);
+	for(int32_t i=0;i<24;++i){
+		Enemy* newEnemy = new Enemy();
+
+		Vector3 enemyPosition;
+		if(i == 0){
+			enemyPosition = mapChipField_->GetMapChipPositionByIndex(7, 7);
+		}
+		if(i==1){
+			enemyPosition = mapChipField_->GetMapChipPositionByIndex(5, 7);
+		}
+		if(i==2){
+			enemyPosition = mapChipField_->GetMapChipPositionByIndex(23, 18);
+		}
+		if(i==3){
+			enemyPosition = mapChipField_->GetMapChipPositionByIndex(9, 15);
+		}
+		if(i==4){
+			enemyPosition = mapChipField_->GetMapChipPositionByIndex(21, 12);
+		}
+		if(i==5){
+			enemyPosition = mapChipField_->GetMapChipPositionByIndex(30, 18);
+		}
+		if(i==6){
+			enemyPosition = mapChipField_->GetMapChipPositionByIndex(31, 8);
+		}
+		if(i==7){
+			enemyPosition = mapChipField_->GetMapChipPositionByIndex(33, 18);
+		}
+		if(i==8){
+			enemyPosition = mapChipField_->GetMapChipPositionByIndex(37, 18);
+		}
+		if(i==9){
+			enemyPosition = mapChipField_->GetMapChipPositionByIndex(45, 1);
+		}
+		if(i==10){
+			enemyPosition = mapChipField_->GetMapChipPositionByIndex(47, 10);
+		}
+		if(i==11){
+			enemyPosition = mapChipField_->GetMapChipPositionByIndex(47, 18);
+		}
+		if(i==12){
+			enemyPosition = mapChipField_->GetMapChipPositionByIndex(59, 12);
+		}
+		if(i==13){
+			enemyPosition = mapChipField_->GetMapChipPositionByIndex(60, 17);
+		}
+		if(i==14){
+			enemyPosition = mapChipField_->GetMapChipPositionByIndex(70, 10);
+		}
+		if(i==15){
+			enemyPosition = mapChipField_->GetMapChipPositionByIndex(70, 18);
+		}
+		if(i==16){
+			enemyPosition = mapChipField_->GetMapChipPositionByIndex(74, 10);
+		}
+		if(i==17){
+			enemyPosition = mapChipField_->GetMapChipPositionByIndex(76, 13);
+		}
+		if(i==18){
+			enemyPosition = mapChipField_->GetMapChipPositionByIndex(78, 2);
+		}
+		if(i==19){
+			enemyPosition = mapChipField_->GetMapChipPositionByIndex(78, 4);
+		}
+		if(i==20){
+			enemyPosition = mapChipField_->GetMapChipPositionByIndex(90, 17);
+		}
+		if(i==21){
+			enemyPosition = mapChipField_->GetMapChipPositionByIndex(97, 9);
+		}
+		if(i==22){
+			enemyPosition = mapChipField_->GetMapChipPositionByIndex(101, 2);
+		}
+		if(i==23){
+			enemyPosition = mapChipField_->GetMapChipPositionByIndex(105, 8);
+		}
+		newEnemy->Initialize(modelEnemy_, &viewProjection_, enemyPosition);
+		enemies_.push_back(newEnemy);
+	}
 
 	goal_ = new Goal();
 	Vector3 goalPosition = mapChipField_->GetMapChipPositionByIndex(108, 18);
