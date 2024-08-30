@@ -11,7 +11,7 @@ ClearScene::~ClearScene() {
 }
 
 void ClearScene::Initialize() {
-	modelTitle_ = Model::CreateFromOBJ("text", true);
+	modelTitle_ = Model::CreateFromOBJ("GameClear", true);
 	viewProjection_.Initialize();
 
 	const float kPlayerScale = 10.0f;
@@ -27,7 +27,7 @@ void ClearScene::Initialize() {
 }
 
 void ClearScene::Update() {
-	if (Input::GetInstance()->PushKey(DIK_SPACE)) {
+	if (Input::GetInstance()->PushKey(DIK_RETURN)) {
 		finished_ = true;
 	}
 	counter_ += 1.0f / 60.0f;
