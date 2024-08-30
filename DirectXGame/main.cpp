@@ -91,7 +91,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	// ゲームウィンドウの作成
 	win = WinApp::GetInstance();
-	win->CreateGameWindow(L"GC2C_11_マイサワ_ショウマ_AL3");
+	win->CreateGameWindow(L"GC2C_11_マイサワ_ショウマ_scrolling_horizontally");
 
 	// DirectX初期化処理
 	dxCommon = DirectXCommon::GetInstance();
